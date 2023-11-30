@@ -59,6 +59,8 @@ int	main(int argc, char **argv, char **env)
 
 	init_vars(env);
 	args = parse("test");
+	(void)args;
+
 	//prt_args(args);
 	// copy_env_var();
 	// // prt_args(g_data.copy_env);

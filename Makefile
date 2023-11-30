@@ -19,7 +19,12 @@ SRCS_FILES = 	main.c				\
 				libft_utils_4.c			\
 				env_utils.c					\
 				free_utils.c				\
-				exit.c
+				exit.c						\
+				parsing_arrays_utils.c		\
+				parsing_quotes.c			\
+				parsing_env_vars.c			\
+				parsing_is_char.c			\
+				parsing_str_utils.c
 
 
 

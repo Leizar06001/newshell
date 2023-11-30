@@ -9,132 +9,92 @@ void	prt_arg(char **args)
 	while (args[i])
 	{
 		printf("%d[%s] ", i, args[i]);
-
 		i++;
 	}
 	printf("\n\n");
 }
 
-int get_end_quote(char *str, int start, char type)
+char	**split_cmds(char **args)
 {
-	//printf("End quote\n");
-	while (str[++start])
-	{
-		//printf("%c", str[start]);
-		if (str[start] == type)
-			return (start);
-	}
-	return (-1);
-}
-
-int check_quotes_closing(char *str)
-{
-	int i;
+	int	i;
+	int	j;
 
 	i = -1;
-	while (str[++i])
+	while (args[++i])
 	{
-		if (str[i] == '\"')
+		if (args[i][0] == '\'' || args[i][0] == '"')
+			continue ;
+		j = -1;
+		while (args[i][++j])
 		{
-			i = get_end_quote(str, i, '"');
-			if (i < 0)
+			if (is_split_char(args[i][j]))
 			{
-				printf("Error: Double quote missing\n");
-				return (-1);
-			}
-		}
-		else if (str[i] == '\'')
-		{
-			i = get_end_quote(str, i, '\'');
-			if (i < 0)
-			{
-				printf("Error: Simple quote missing\n");
-				return (-1);
+				if (args[i][j + 1] == args[i][j])
+					j++;
+				printf("\nArgs[%d] {%s} Found split char: %c\n", i, args[i], args[i][j]);
+				args = add_str_arr_pos(args, i + 1, ft_strdup(args[i] + j));
+				args = add_str_arr_pos(args, i + 2, ft_strdup(args[i] + j + 1));
+				args[i][j] = '\0';
+				args[i + 1][1] = '\0';
+				printf("Modify to: {%s}\n", args[i]);
+				printf("Add: {%s}\n", args[i + 1]);
+				printf("And: {%s}\n", args[i + 2]);
+				i++;
+				break ;
 			}
 		}
 	}
-	return (0);
-}
-
-char **add_one_array_line(char **arr, int pos, char *str)
-{
-	int		i;
-	int		len;
-	char	**ret;
-
-	// printf("ADD LINE\n");
-	len = 0;
-	while (arr[len])
-		len++;
-	ret = malloc(sizeof(char *) * (len + 2));
-	i = -1;
-	if (pos > len)
-		pos = len;
-	while (++i < pos){
-		ret[i] = arr[i];
-		printf("copy line %d\n", i);
-	}
-	ret[i] = str;
-	while (++i < len){
-		ret[i] = arr[i - 1];
-		printf("copy line %d\n", i);
-	}
-	ret[i] = NULL;
-	printf("> New length: %d, NULL at %d\n", len + 2, i);
-	free(arr);
-	return (ret);
-}
-
-char **fill_box_dquote(char **args, char *str, int start, int end)
-{
-	char *extract;
-
-	// printf("Len strdup: %d\n", end - start);
-	extract = ft_strldup(str + start, end - start + 1);
-	printf("Adding > %s <\n", extract);
-	args = add_one_array_line(args, 9999999, extract);
 	return (args);
 }
 
-char **analyse_quotes(char **args, char *str)
+char	**trim_all_str(char **args)
 {
-	int i;
-	int nexti;
+	int		i;
+	char	*tmp;
 
 	i = -1;
-	while (str[++i])
+	while (args[++i])
 	{
-		if (str[i] == '\"')
-		{
-			// printf("Found quote at %d\n", i);
-			// printf("%s\n", str + i);
-			nexti = get_end_quote(str, i, '\"');
-			// printf("> Next quote at %d\n", nexti);
-			args = fill_box_dquote(args, str, i, nexti);
-			i = nexti;
-		}
+		tmp = ft_trim(args[i]);
+		free(args[i]);
+		args[i] = tmp;
 	}
+	return (args);
 }
-
-
 
 char	**parse(char *cmd_line)
 {
 	char	**args;
-	char	**tmp;
 
 	(void)cmd_line;
-	char *str = "echo 'this''is'\"a\" test \"|\" | ls|grep < file a";
+	char *str = "echo 'in\"si\"de' 'this $USER''is'\"a $USER\" test \"|\" new | ls|grep << file $USER a > $USER";
 
-	printf("Test: %s\n", str);
+	printf("\n\nTest: %s\n", str);
 	if (check_quotes_closing(str) < 0)
-		return (-1);
-	printf("Check quotes ok\n");
+		return (NULL);
+	//printf("Check quotes ok\n");
 	args = malloc(sizeof(char *) * 1);
 	args[0] = NULL;
-	tmp = analyse_quotes(args, str);
+	args = analyse_quotes(args, str);
+	args = replace_vars(args);
 
-	prt_arg(tmp);
+	printf("\n");
+	prt_arg(args);
+
+	args = split_cmds(args);
+
+	printf("\n");
+	prt_arg(args);
+
+	args = trim_all_str(args);
+
+	printf("\n");
+	prt_arg(args);
+
+	int i = -1;
+	while (args[++i])
+		free(args[i]);
+	free(args);
 
 	return (args);
 }
