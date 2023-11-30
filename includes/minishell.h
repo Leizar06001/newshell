@@ -92,12 +92,17 @@ char	**replace_vars(char **args);
 int	is_alpha_num(char c);
 int	is_split_char(char c);
 int	is_spaces(char c);
+int	is_only_spaces(char *str);
+int	is_only_quotes(char *str);
 
 char **add_str_part_to_arr(char **args, char *str, int start, int end);
 char **add_str_arr_pos(char **arr, int pos, char *str);
+char	**rm_arr_line(char **args, int pos);
 
 char	*ft_trim(char *str);
-int	is_only_spaces(char *str);
+char	*ft_reduce_multiple_spaces(char *str);
+
+
 
 
 #endif

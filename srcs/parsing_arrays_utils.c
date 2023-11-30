@@ -21,7 +21,7 @@ char **add_str_arr_pos(char **arr, int pos, char *str)
 	}
 	ret[i] = str;
 	// printf("insert line %s at %d\n", str, i);
-	while (++i < len){
+	while (++i <= len){
 		ret[i] = arr[i - 1];
 		// printf("copy line -1 %s at %d\n", arr[i - 1], i);
 	}
@@ -43,4 +43,17 @@ char **add_str_part_to_arr(char **args, char *str, int start, int end)
 	ret = add_str_arr_pos(args, 9999999, extract);
 	free(args);
 	return (ret);
+}
+
+char	**rm_arr_line(char **args, int pos)
+{
+	// printf("Removing line %d: '%s'\n", pos, args[pos]);
+	free(args[pos]);
+	while (args[pos + 1])
+	{
+		args[pos] = args[pos + 1];
+		pos++;
+	}
+	args[pos] = NULL;
+	return (args);
 }

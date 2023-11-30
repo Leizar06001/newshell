@@ -38,9 +38,9 @@ void	main_command_loop(void)
 			args = parse(g_data.cmd_line);
 			prt_args(args);
 
-			err = look_for_builtin(args);	// builtins
+			err = my_execve(args);	// system program
 			if (err != 0)
-				err = my_execve(args);	// system program
+				err = look_for_builtin(args);	// builtins
 		}
 		free(g_data.cmd_line);
 	}
@@ -59,14 +59,22 @@ int	main(int argc, char **argv, char **env)
 
 	init_vars(env);
 	args = parse("test");
-	(void)args;
 
 	//prt_args(args);
 	// copy_env_var();
 	// // prt_args(g_data.copy_env);
-	// main_command_loop();
+	main_command_loop();
 	// printf("start my_export");
-	// exit_minishell();
+
+
+	int i = -1;
+	while (args[++i])
+		free(args[i]);
+	free(args);
+
+	exit_minishell();
+
+
 
 	// exit 42 ? (y)19
 	return (0);

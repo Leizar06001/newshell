@@ -8,32 +8,51 @@ char	*ft_trim(char *str)
 	int		i;
 
 	start = 0;
+	// printf("TRIM: %s\n", str);
 	while (str[start] && is_spaces(str[start]))
 		start++;
 	end = ft_strlen(str) - 1;
 	while (end >= 0 && is_spaces(str[end]))
 		end--;
-	ret = malloc(sizeof(char) * (end - start + 1));
+	ret = malloc(sizeof(char) * (end - start + 3));
 	i = 0;
+	// printf("from %d to %d\n", start, end);
 	while (start <= end)
 	{
 		ret[i] = str[start];
 		start++;
 		i++;
 	}
-	ret[start] = '\0';
+	ret[i] = '\0';
 	return (ret);
 }
 
-int	is_only_spaces(char *str)
+char	*ft_reduce_multiple_spaces(char *str)
 {
 	int	i;
+	int	j;
+	int	flag;
 
-	i = -1;
-	while (str[++i])
+	// printf("REDUCE: %s\n", str);
+	i = 0;
+	j = -1;
+	flag = 0;
+	while (str[++j])
 	{
-		if (is_spaces(str[i]) != 0)
-			return (0);
+		if (!is_spaces(str[j]))
+		{
+			str[i++] = str[j];
+			flag = 0;
+		}
+		else
+		{
+			if (flag == 0)
+				str[i++] = ' ';
+			else
+				j++;
+			flag = 1;
+		}
 	}
-	return (1);
+	str[i] = '\0';
+	return (str);
 }
