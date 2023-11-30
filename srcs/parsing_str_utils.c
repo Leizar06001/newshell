@@ -33,7 +33,6 @@ char	*ft_reduce_multiple_spaces(char *str)
 	int	j;
 	int	flag;
 
-	// printf("REDUCE: %s\n", str);
 	i = 0;
 	j = -1;
 	flag = 0;

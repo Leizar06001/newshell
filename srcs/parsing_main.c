@@ -177,5 +177,8 @@ Séparer tout ce qui est entre cotes
 Convertir les $VARS
 Séparer les args
 
+rejoindre les cotes contigues en 1 case
+gerer les >> <<
+
 
 */
