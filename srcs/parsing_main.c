@@ -76,6 +76,47 @@ char	**split_spaces(char **args)
 	return (args);
 }
 
+char	**join_quotes(char **args, int start, int end)
+{
+	int	len;
+	int	i;
+
+	i = start;
+	while (++i <= end)
+		len += ft_strlen(args[i]);
+	printf("Total len: %d\n", len);
+	return (args);
+}
+
+char	**check_quotes_to_join(char **args)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (args[i][0] == '\'' || args[i][0] == '"')
+		{
+			j = i;
+			while (args[j + 1])
+			{
+				if (args[j + 1][0] == '\'' || args[j + 1][0] == '"')
+					j++;
+				else
+					break ;
+			}
+			printf("Found quotes from %d to %d\n", i, j);
+			if (j > i)
+			{
+				join_quotes(args, i, j);
+				i = j;
+			}
+		}
+	}
+	return (args);
+}
+
 char	**parse(char *cmd_line)
 {
 	char	**args;
@@ -107,8 +148,13 @@ char	**parse(char *cmd_line)
 	// prt_arg(args);
 
 	args = split_spaces(args);
-	args = remove_quotes(args);
 
+	printf("\nSpaces:");
+	prt_arg(args);
+
+	args = check_quotes_to_join(args);
+
+	args = remove_quotes(args);
 	// printf("\nLAST:");
 	// prt_arg(args);
 	// printf("\n");
