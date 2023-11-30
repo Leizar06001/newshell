@@ -56,12 +56,47 @@ int check_quotes_closing(char *str)
 	return (0);
 }
 
-void fill_box_dquote(char *str, int start, int end)
+char **add_one_array_line(char **arr, int pos, char *str)
 {
+	int		i;
+	int		len;
+	char	**ret;
 
+	// printf("ADD LINE\n");
+	len = 0;
+	while (arr[len])
+		len++;
+	ret = malloc(sizeof(char *) * (len + 2));
+	i = -1;
+	if (pos > len)
+		pos = len;
+	while (++i < pos){
+		ret[i] = arr[i];
+		printf("copy line %d\n", i);
+	}
+	ret[i] = str;
+	while (++i < len){
+		ret[i] = arr[i - 1];
+		printf("copy line %d\n", i);
+	}
+	ret[i] = NULL;
+	printf("> New length: %d, NULL at %d\n", len + 2, i);
+	free(arr);
+	return (ret);
 }
 
-char **analyse_quotes(char *str)
+char **fill_box_dquote(char **args, char *str, int start, int end)
+{
+	char *extract;
+
+	// printf("Len strdup: %d\n", end - start);
+	extract = ft_strldup(str + start, end - start + 1);
+	printf("Adding > %s <\n", extract);
+	args = add_one_array_line(args, 9999999, extract);
+	return (args);
+}
+
+char **analyse_quotes(char **args, char *str)
 {
 	int i;
 	int nexti;
@@ -69,9 +104,14 @@ char **analyse_quotes(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == "\"")
+		if (str[i] == '\"')
 		{
-			//nexti = get_end_quote()
+			// printf("Found quote at %d\n", i);
+			// printf("%s\n", str + i);
+			nexti = get_end_quote(str, i, '\"');
+			// printf("> Next quote at %d\n", nexti);
+			args = fill_box_dquote(args, str, i, nexti);
+			i = nexti;
 		}
 	}
 }
@@ -90,9 +130,11 @@ char	**parse(char *cmd_line)
 	if (check_quotes_closing(str) < 0)
 		return (-1);
 	printf("Check quotes ok\n");
-	tmp = analyse_quotes(str);
+	args = malloc(sizeof(char *) * 1);
+	args[0] = NULL;
+	tmp = analyse_quotes(args, str);
 
-	//prt_arg(tmp);
+	prt_arg(tmp);
 
 	return (args);
 }
