@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **env)
 	//prt_args(args);
 	// copy_env_var();
 	// // prt_args(g_data.copy_env);
-	main_command_loop();
+	//main_command_loop();
 	// printf("start my_export");
 
 

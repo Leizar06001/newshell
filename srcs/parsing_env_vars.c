@@ -31,7 +31,6 @@ char	*check_vars_in_str(char *str)
 	char	*var_val;
 	char	*ret;
 
-	// printf("\nOld str: %s\n", str);
 	start = ft_strchr(str, '$') + 1;
 	end = start - str;
 	while (str[++end])
@@ -39,20 +38,12 @@ char	*check_vars_in_str(char *str)
 		if (is_alpha_num(str[end]) == 0)
 			break ;
 	}
-	// printf("End pos: %d\n", end);
 	var_name = ft_strldup(start, end - (int)(start - str));
-	// printf("> var name: %s\n", var_name);
 	var_val = get_env_var(var_name, g_data.copy_env);
-
-	// printf("> var val: %s\n", var_val);
 	if (var_val)
 		ret = replace_var_in_str(str, start - str - 1, var_name, var_val);
 	else
-	{
-		// printf("*** NO VAR ***\n");
 		ret = replace_var_in_str(str, start - str - 1, var_name, "");
-	}
-	// printf("New str: %s\n\n", ret);
 	free(var_name);
 	return (ret);
 }

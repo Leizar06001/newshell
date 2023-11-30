@@ -86,7 +86,9 @@ void	exit_minishell(void);
 
 //parsing
 char	**analyse_quotes(char **args, char *str);
-int check_quotes_closing(char *str);
+int 	check_quotes_closing(char *str);
+char	**remove_quotes(char **args);
+
 char	**replace_vars(char **args);
 
 int	is_alpha_num(char c);
@@ -99,7 +101,7 @@ char **add_str_part_to_arr(char **args, char *str, int start, int end);
 char **add_str_arr_pos(char **arr, int pos, char *str);
 char	**rm_arr_line(char **args, int pos);
 
-char	*ft_trim(char *str);
+char	**trim_all_str(char **args);
 char	*ft_reduce_multiple_spaces(char *str);
 
 

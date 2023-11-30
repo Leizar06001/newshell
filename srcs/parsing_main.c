@@ -76,60 +76,17 @@ char	**split_spaces(char **args)
 	return (args);
 }
 
-char	**trim_all_str(char **args)
-{
-	int		i;
-	char	*tmp;
-
-	i = -1;
-	while (args[++i])
-	{
-		if (is_only_spaces(args[i]) || is_only_quotes(args[i]))
-		{
-			args = rm_arr_line(args, i);
-			i--;
-		}
-		else
-		{
-			ft_reduce_multiple_spaces(args[i]);
-			tmp = ft_trim(args[i]);
-			free(args[i]);
-			args[i] = tmp;
-		}
-	}
-	return (args);
-}
-
-char	**remove_quotes(char **args)
-{
-	int		i;
-	char	*tmp;
-
-	i = -1;
-	while (args[++i])
-	{
-		if (args[i][0] == '"' || args[i][0] == '\'')
-		{
-			tmp = ft_strldup(args[i] + 1, ft_strlen(args[i]) - 2);
-			free(args[i]);
-			args[i] = tmp;
-		}
-	}
-	return (args);
-}
-
 char	**parse(char *cmd_line)
 {
 	char	**args;
 
 	(void)cmd_line;
-	//char *str = "echo 'in\"si\"de' sp   aa cee d''ou\"\"ble 'this $USER''is'\"a $USER\" test \"|\" new | ls|grep < file $USE[] a > $USEER";
-	char	*str = cmd_line;
+	char *str = "echo 'in\"si\"de' sp   aa cee d''ou\"\"ble 'this $USER''is'\"a $USER\" test \"|\" new | ls|grep < file $USE[] a > $USEER";
+	//char	*str = cmd_line;
 
 	printf("\n\nTest: %s\n", str);
 	if (check_quotes_closing(str) < 0)
 		return (NULL);
-	//printf("Check quotes ok\n");
 	args = malloc(sizeof(char *) * 1);
 	args[0] = NULL;
 
@@ -149,22 +106,11 @@ char	**parse(char *cmd_line)
 	// printf("\nTrimed:");
 	// prt_arg(args);
 
-
 	args = split_spaces(args);
 	args = remove_quotes(args);
 
 	// printf("\nLAST:");
 	// prt_arg(args);
-
-	// printf("\n");
-	// int	i = -1;
-	// while (args[++i])
-	// {
-	// 	int	j = -1;
-	// 	while (args[i][++j])
-	// 		printf("%c", args[i][j]);
-	// 	printf(" ");
-	// }
 	// printf("\n");
 	return (args);
 }

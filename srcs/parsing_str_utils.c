@@ -27,6 +27,30 @@ char	*ft_trim(char *str)
 	return (ret);
 }
 
+char	**trim_all_str(char **args)
+{
+	int		i;
+	char	*tmp;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (is_only_spaces(args[i]) || is_only_quotes(args[i]))
+		{
+			args = rm_arr_line(args, i);
+			i--;
+		}
+		else
+		{
+			ft_reduce_multiple_spaces(args[i]);
+			tmp = ft_trim(args[i]);
+			free(args[i]);
+			args[i] = tmp;
+		}
+	}
+	return (args);
+}
+
 char	*ft_reduce_multiple_spaces(char *str)
 {
 	int	i;

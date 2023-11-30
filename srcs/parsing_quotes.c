@@ -1,5 +1,23 @@
 #include "../includes/minishell.h"
 
+char	**remove_quotes(char **args)
+{
+	int		i;
+	char	*tmp;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (args[i][0] == '"' || args[i][0] == '\'')
+		{
+			tmp = ft_strldup(args[i] + 1, ft_strlen(args[i]) - 2);
+			free(args[i]);
+			args[i] = tmp;
+		}
+	}
+	return (args);
+}
+
 int get_end_quote(char *str, int start, char type)
 {
 	//printf("End quote\n");
