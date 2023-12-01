@@ -20,10 +20,8 @@ char	**remove_quotes(char **args)
 
 int get_end_quote(char *str, int start, char type)
 {
-	//printf("End quote\n");
 	while (str[++start])
 	{
-		//printf("%c", str[start]);
 		if (str[start] == type)
 			return (start);
 	}

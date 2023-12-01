@@ -24,7 +24,10 @@ SRCS_FILES = 	main.c				\
 				parsing_quotes.c			\
 				parsing_env_vars.c			\
 				parsing_is_char.c			\
-				parsing_str_utils.c
+				parsing_str_utils.c			\
+				parsing_join_quotes.c		\
+				parsing_splits.c			\
+				parsing_output.c
 
 
 

@@ -8,7 +8,6 @@ char	*ft_trim(char *str)
 	int		i;
 
 	start = 0;
-	// printf("TRIM: %s\n", str);
 	while (str[start] && is_spaces(str[start]))
 		start++;
 	end = ft_strlen(str) - 1;
@@ -16,7 +15,6 @@ char	*ft_trim(char *str)
 		end--;
 	ret = malloc(sizeof(char) * (end - start + 3));
 	i = 0;
-	// printf("from %d to %d\n", start, end);
 	while (start <= end)
 	{
 		ret[i] = str[start];

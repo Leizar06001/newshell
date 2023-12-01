@@ -21,6 +21,7 @@ typedef struct s_data
 	char	**cmd_parsed;
 	char	*prompt;
 	char	**copy_env;
+	char	***args_arr;
 }						t_data;
 
 extern t_data	g_data;
@@ -54,9 +55,6 @@ int get_env_var_line(char *var_name, char **env);
 char	**copy_env_var(char **env);
 int	nb_lines_arr(char **array);
 
-// parsing_main.c
-char	**parse(char *cmd_line);
-
 // libft_utils_1.c
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -85,26 +83,33 @@ void	free_2d_char(char **arr);
 void	exit_minishell(void);
 
 //parsing
+// parsing_main.c
+char	**parse(char *cmd_line, t_data *datas);
+
 char	**analyse_quotes(char **args, char *str);
-int 	check_quotes_closing(char *str);
+int		check_quotes_closing(char *str);
 char	**remove_quotes(char **args);
 
 char	**replace_vars(char **args);
 
-int	is_alpha_num(char c);
-int	is_split_char(char c);
-int	is_spaces(char c);
-int	is_only_spaces(char *str);
-int	is_only_quotes(char *str);
+int		is_alpha_num(char c);
+int		is_split_char(char c);
+int		is_spaces(char c);
+int		is_only_spaces(char *str);
+int		is_only_quotes(char *str);
 
-char **add_str_part_to_arr(char **args, char *str, int start, int end);
-char **add_str_arr_pos(char **arr, int pos, char *str);
+char	**add_str_part_to_arr(char **args, char *str, int start, int end);
+char	**add_str_arr_pos(char **arr, int pos, char *str);
 char	**rm_arr_line(char **args, int pos);
 
 char	**trim_all_str(char **args);
 char	*ft_reduce_multiple_spaces(char *str);
 
+char	**check_quotes_to_join(char **args);
 
+char	**split_cmds(char **args);
+char	**split_spaces(char **args);
 
+void	create_output(char **args, t_data *datas);
 
 #endif

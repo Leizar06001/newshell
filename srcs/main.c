@@ -35,7 +35,7 @@ void	main_command_loop(void)
 		{
 			add_history(g_data.cmd_line);
 
-			args = parse(g_data.cmd_line);
+			args = parse(g_data.cmd_line, &g_data);
 			prt_args(args);
 
 			err = my_execve(args);	// system program
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	// char	**args;
 
 	init_vars(env);
-	args = parse("test");
+	args = parse("test", &g_data);
 
 	//prt_args(args);
 	// copy_env_var();
@@ -71,6 +71,16 @@ int	main(int argc, char **argv, char **env)
 	while (args[++i])
 		free(args[i]);
 	free(args);
+
+	i = -1;
+	while (g_data.args_arr[++i])
+	{
+		int	j = -1;
+		while (g_data.args_arr[i][++j])
+			free(g_data.args_arr[i][j]);
+		free(g_data.args_arr[i]);
+	}
+	free(g_data.args_arr);
 
 	exit_minishell();
 
