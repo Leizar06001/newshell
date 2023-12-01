@@ -2,26 +2,53 @@
 
 t_data g_data;
 
-void	prt_args(char **args)
+void	prt_args(t_data *datas)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
-	printf("args: ");
-	while (args[i])
+	// i = 0;
+	// printf("args: ");
+	// while (args[i])
+	// {
+	// 	printf("%d[%s] ", i, args[i]);
+
+	// 	i++;
+	// }
+	// printf("\n\n");
+	int	i = -1;
+	printf("\n\n*** New array ***\n");
+	while (datas->args_arr[++i])
 	{
-		printf("%d[%s] ", i, args[i]);
-
-		i++;
+		printf("\nLine %d\n >> ", i);
+		int j = -1;
+		while (datas->args_arr[i][++j])
+			printf("%s ", datas->args_arr[i][j]);
 	}
-	printf("\n\n");
+	printf("\n");
 }
 
+int	cmd_launcher(t_data *datas)
+{
+	int	i;
+	int		err;
+
+	i = -1;
+	while (datas->args_arr[++i])
+	{
+		if (datas->args_arr[i][0][0] != '|')
+		{
+			printf("\n>>> Command output:\n");
+			err = my_execve(datas->args_arr[i]);	// system program
+			if (err != 0)
+				err = look_for_builtin(datas->args_arr[i]);	// builtins
+		}
+	}
+	return (err);
+}
 
 void	main_command_loop(void)
 {
 	int		err;
-	char	**args;
 
 	(void)err;
 	while (!g_data.exit)
@@ -35,12 +62,14 @@ void	main_command_loop(void)
 		{
 			add_history(g_data.cmd_line);
 
-			args = parse(g_data.cmd_line, &g_data);
-			prt_args(args);
+			parse(g_data.cmd_line, &g_data);
+			prt_args(&g_data);
 
-			err = my_execve(args);	// system program
-			if (err != 0)
-				err = look_for_builtin(args);	// builtins
+			// err = my_execve(args);	// system program
+			// if (err != 0)
+			// 	err = look_for_builtin(args);	// builtins
+			err = cmd_launcher(&g_data);
+			clear_data_args_arr(&g_data);
 		}
 		free(g_data.cmd_line);
 	}
@@ -52,35 +81,15 @@ int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	char **args;
 
-	// int		found;
 	// char	**args;
 
 	init_vars(env);
-	args = parse("test", &g_data);
-
-	//prt_args(args);
-	// copy_env_var();
-	// // prt_args(g_data.copy_env);
-	//main_command_loop();
-	// printf("start my_export");
+	//parse("test", &g_data);
 
 
-	int i = -1;
-	while (args[++i])
-		free(args[i]);
-	free(args);
+	main_command_loop();
 
-	i = -1;
-	while (g_data.args_arr[++i])
-	{
-		int	j = -1;
-		while (g_data.args_arr[i][++j])
-			free(g_data.args_arr[i][j]);
-		free(g_data.args_arr[i]);
-	}
-	free(g_data.args_arr);
 
 	exit_minishell();
 

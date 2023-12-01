@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_join_quotes.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:19:14 by rloussig          #+#    #+#             */
+/*   Updated: 2023/12/01 17:21:54 by rloussig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-char	*merge_args(char **args, int start, int end, char *tmp){
+char	*merge_args(char **args, int start, int end, char *tmp)
+{
 	int		i;
 	int		j;
 
@@ -12,7 +25,7 @@ char	*merge_args(char **args, int start, int end, char *tmp){
 			tmp[++j] = args[start][i];
 		start++;
 	}
-	tmp[j] = '\0';
+	tmp[j + 1] = '\0';
 	return (tmp);
 }
 

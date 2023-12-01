@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_env_vars.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:20:36 by rloussig          #+#    #+#             */
+/*   Updated: 2023/12/01 17:21:22 by rloussig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 char	*replace_var_in_str(char *str, int pos, char *name, char *val)
@@ -7,7 +19,8 @@ char	*replace_var_in_str(char *str, int pos, char *name, char *val)
 	int		j;
 	int		s;
 
-	ret = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(name) + ft_strlen(val) + 2));
+	ret = malloc(sizeof(char) * (ft_strlen(str)
+				- ft_strlen(name) + ft_strlen(val) + 2));
 	i = -1;
 	while (++i < pos)
 		ret[i] = str[i];
@@ -50,7 +63,7 @@ char	*check_vars_in_str(char *str)
 
 char	**replace_vars(char **args)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = -1;

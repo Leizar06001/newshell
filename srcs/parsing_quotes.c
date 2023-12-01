@@ -1,24 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_quotes.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:19:12 by rloussig          #+#    #+#             */
+/*   Updated: 2023/12/01 17:23:02 by rloussig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-char	**remove_quotes(char **args)
+void	remove_quotes(t_data *datas)
 {
 	int		i;
+	int		j;
 	char	*tmp;
 
 	i = -1;
-	while (args[++i])
+	while (datas->args_arr[++i])
 	{
-		if (args[i][0] == '"' || args[i][0] == '\'')
+		j = -1;
+		while (datas->args_arr[i][++j])
 		{
-			tmp = ft_strldup(args[i] + 1, ft_strlen(args[i]) - 2);
-			free(args[i]);
-			args[i] = tmp;
+			if (datas->args_arr[i][j][0] == '"'
+				|| datas->args_arr[i][j][0] == '\'')
+			{
+				tmp = ft_strldup(datas->args_arr[i][j] + 1,
+						ft_strlen(datas->args_arr[i][j]) - 2);
+				free(datas->args_arr[i][j]);
+				datas->args_arr[i][j] = tmp;
+			}
 		}
 	}
-	return (args);
 }
 
-int get_end_quote(char *str, int start, char type)
+int	get_end_quote(char *str, int start, char type)
 {
 	while (str[++start])
 	{
@@ -28,9 +46,9 @@ int get_end_quote(char *str, int start, char type)
 	return (-1);
 }
 
-int check_quotes_closing(char *str)
+int	check_quotes_closing(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -63,10 +81,10 @@ void	update_counters(int *i, int *endqu)
 	*endqu = *endqu + 1;
 }
 
-char **analyse_quotes(char **args, char *str)
+char	**analyse_quotes(char **args, char *str)
 {
-	int i;
-	int endqu;
+	int	i;
+	int	endqu;
 
 	i = -1;
 	endqu = 0;

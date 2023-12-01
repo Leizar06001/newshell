@@ -85,10 +85,11 @@ void	exit_minishell(void);
 //parsing
 // parsing_main.c
 char	**parse(char *cmd_line, t_data *datas);
+void	clear_data_args_arr(t_data *datas);
 
 char	**analyse_quotes(char **args, char *str);
 int		check_quotes_closing(char *str);
-char	**remove_quotes(char **args);
+void	remove_quotes(t_data *datas);
 
 char	**replace_vars(char **args);
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_main.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:19:19 by rloussig          #+#    #+#             */
+/*   Updated: 2023/12/01 17:25:14 by rloussig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	prt_arg(char **args)
@@ -40,31 +52,47 @@ char	**join_double_redirs(char **args)
 char	**parse(char *cmd_line, t_data *datas)
 {
 	char	**args;
+	int		i;
 
-	(void)cmd_line;
-	char *str = "echo 'in\"si\"de' sp   aa cee d''ou\"\"ble 'this \"$USER\"''is'\"a '$USER'\" test \"|\" new | ls|grep << file $USE[] a > $USEER";
-	//char *str = "echo << file coucou";
-	//char *str = "e";
-	//char	*str = cmd_line;
-
-	printf("\n\nTest: %s\n", str);
-	if (check_quotes_closing(str) < 0)
+	if (check_quotes_closing(cmd_line) < 0)
 		return (NULL);
 	args = malloc(sizeof(char *) * 1);
 	args[0] = NULL;
-	args = analyse_quotes(args, str);
+	args = analyse_quotes(args, cmd_line);
+	// prt_arg(args);
 	args = replace_vars(args);
+	// prt_arg(args);
 	args = split_cmds(args);
+	// prt_arg(args);
 	args = trim_all_str(args);
+	// prt_arg(args);
 	args = split_spaces(args);
+	// prt_arg(args);
 	args = join_double_redirs(args);
+	// prt_arg(args);
 	args = check_quotes_to_join(args);
+	// prt_arg(args);
 	create_output(args, datas);
-
-	//args = remove_quotes(args);
-	printf("\nLAST:");
-	prt_arg(args);
-	// printf("\n");
+	remove_quotes(datas);
+	i = -1;
+	while (args[++i])
+		free(args[i]);
+	free(args);
 	return (args);
 }
 
+void	clear_data_args_arr(t_data *datas)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (datas->args_arr[++i])
+	{
+		j = -1;
+		while (datas->args_arr[i][++j])
+			free(datas->args_arr[i][j]);
+		free(datas->args_arr[i]);
+	}
+	free(datas->args_arr);
+}

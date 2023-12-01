@@ -30,8 +30,8 @@ int	my_execve(char **args)
 	char	*prog_path;
 
 	prog_path = search_path(args);
-	if (prog_path)
-		printf("Found %s at %s\n\n", args[0], prog_path);
+	// if (prog_path)
+	// 	printf("Found %s at %s\n\n", args[0], prog_path);
 	if (!prog_path)
 		return(1);
 	pid = fork();

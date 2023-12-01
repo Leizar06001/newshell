@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_splits.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:22:04 by rloussig          #+#    #+#             */
+/*   Updated: 2023/12/01 17:22:10 by rloussig         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 char	**split_cmds_exec(char **args, int i, int j)
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = add_str_arr_pos(args, i + 1, ft_strdup(args[i] + j));
 	free(args);
