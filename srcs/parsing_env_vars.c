@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_env_vars.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fatoudiallo <fatoudiallo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:20:36 by rloussig          #+#    #+#             */
-/*   Updated: 2023/12/01 17:21:22 by rloussig         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:36:02 by fatoudiallo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*replace_var_in_str(char *str, int pos, char *name, char *val)
 	return (ret);
 }
 
-char	*check_vars_in_str(char *str)
+char	*check_vars_in_str(char *str, t_data *datas)
 {
 	char	*start;
 	int		end;
@@ -52,7 +52,7 @@ char	*check_vars_in_str(char *str)
 			break ;
 	}
 	var_name = ft_strldup(start, end - (int)(start - str));
-	var_val = get_env_var(var_name, g_data.copy_env);
+	var_val = get_env_var(var_name, datas->copy_env);
 	if (var_val)
 		ret = replace_var_in_str(str, start - str - 1, var_name, var_val);
 	else
@@ -61,7 +61,7 @@ char	*check_vars_in_str(char *str)
 	return (ret);
 }
 
-char	**replace_vars(char **args)
+char	**replace_vars(char **args, t_data *datas)
 {
 	int		i;
 	char	*tmp;
@@ -73,7 +73,7 @@ char	**replace_vars(char **args)
 		{
 			while (ft_strchr(args[i], '$'))
 			{
-				tmp = check_vars_in_str(args[i]);
+				tmp = check_vars_in_str(args[i], datas);
 				free(args[i]);
 				args[i] = tmp;
 			}
