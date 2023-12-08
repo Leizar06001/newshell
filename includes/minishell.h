@@ -30,6 +30,7 @@ typedef struct s_data
 	char	*prompt;
 	char	**copy_env;
 	char	***args_arr;
+	int		exec_return;
 }				t_data;
 
 // my_execve.c
@@ -83,6 +84,9 @@ char 	*ft_strcpy(char *dest, char *src);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strldup(const char *s, size_t len);
 
+// libft_utils_5.c
+char	*ft_itoa(int n);
+
 // free_utils.c
 void	free_2d_char(char **arr);
 
@@ -121,5 +125,7 @@ char	**split_cmds(char **args);
 char	**split_spaces(char **args);
 // parsing_output.c
 void	create_output(char **args, t_data *datas);
+
+int		is_alpha(char c);
 
 #endif
