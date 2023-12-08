@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_env_vars.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rloussig <rloussig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raphaelloussignian <raphaelloussignian@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:20:36 by rloussig          #+#    #+#             */
-/*   Updated: 2023/12/06 12:40:46 by rloussig         ###   ########.fr       */
+/*   Updated: 2023/12/08 12:18:22 by raphaellous      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*retrieve_var_from_env(char *var_name, t_data *datas)
 	{
 		if (var_name[1] == '\0')
 		{
-			val = ft_itoa(datas->exec_return);
+			val = ft_itoa(datas->exit_status);
 			return (val);
 		}
 	}

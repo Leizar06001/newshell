@@ -30,7 +30,8 @@ typedef struct s_data
 	char	*prompt;
 	char	**copy_env;
 	char	***args_arr;
-	int		exec_return;
+	int		cmd_ret;
+	int		exit_status;
 }				t_data;
 
 // my_execve.c
